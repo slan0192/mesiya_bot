@@ -1,0 +1,53 @@
+body {
+	background-color: #f0f8ff;
+}
+h1.title {
+	color: #191970;
+	text-shadow: 7px 7px 4px #999999;
+	font-size:50px;
+}
+
+div.contents {
+	margin-left: 20px;
+}
+
+.jp_state_list {
+	margin-right: 5px;
+}
+
+.jp_state {
+	width: 60%;
+	margin-left: 50px;
+	border-bottom: solid 1px #ff88cc;
+ }
+ 	
+.card-grid {
+	display: grid;
+	grid-template-columns: 440px 440px 440px;
+	gap: 15px;
+	justify-content: center;
+}
+.card {
+	background: #eeeeff;
+	border-radius: 5px;
+	box-shadow: 0 2px 5px #ccc;
+}
+.card-img {
+	border-radius: 5px 5px 0 0;
+	max-width: 50%;
+	height: auto;
+}
+.card-content {
+	padding: 20px;
+}
+.card-title {
+	font-size: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+	color: #333;
+}
+.card-text {
+	color: #777;
+	font-size: 14px;
+	line-height: 1.5;
+}
