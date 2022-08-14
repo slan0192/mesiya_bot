@@ -59,7 +59,8 @@ class Store:
 <body>
   <h1 class="title">Void</h1>
   <div class="contents">
-'''
+  	<div class="update"><a href="{type}.py">お店情報更新</a></div>
+'''.format(type=("meshiya" if tp == "restaurants" else "sakaya"))
 
 		jp_states = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]
 
@@ -67,9 +68,8 @@ class Store:
 		for st in jp_states:
 			if not st in datas:
 				continue
-			html += '''
-      <a href="#{state}" class="jp_state_list">{state}</a>
-'''.format(state=st)
+			html += '      <a href="#{state}" class="jp_state_list">{state}</a>\n'.format(state=st)
+		html += '    </p>\n'
 
 		for st in jp_states:
 			if not st in datas:
@@ -79,14 +79,10 @@ class Store:
     <div class="card-grid">
 '''.format(state=st)
 			for d in datas[st]:
-				html += '''
-      <section class="card">
-'''
+				html += '      <section class="card">\n'
 				if d["photo"] != None:
 					photos = d["photo"].split(":")
-					html += '''
-        <img class="card-img" src="img/{photo}" alt="" />
-'''.format(photo=photos[0])
+					html += '        <img class="card-img" src="img/{photo}" alt="" />'.format(photo=photos[0])
 				if d["station"] == None:
 					d["station"] = ""
 				html += '''

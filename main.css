@@ -11,6 +11,10 @@ div.contents {
 	margin-left: 20px;
 }
 
+div.update {
+	text-align: right;
+}
+
 .jp_state_list {
 	margin-right: 5px;
 }
