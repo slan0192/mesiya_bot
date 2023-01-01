@@ -5,6 +5,7 @@ import os
 import requests
 from bs4 import BeautifulSoup
 import base64
+import json
 
 def getBS4Data(title):
 	page = requests.get("https://www.google.com/search?q={word}".format(word=title))
@@ -42,6 +43,41 @@ def downloadImage(url, filename):
 		
 	return True
 
+def getGeocodePage(addr):
+	url = "https://www.geocoding.jp/api/?q=" + addr
+	page = requests.get(url)
+	if page.status_code != 200:
+		return None
+	return page.text
+
+#とにかく一番近い駅を探す
+def getStation(addr):
+	page = getGeocodePage(addr)
+	if page == None:
+		return None
+	bs = BeautifulSoup(page, "xml")
+	if bs.find('error'):
+		page = getGeocodePage(addr)
+		if page == None:
+			return None
+		bs = BeautifulSoup(page, "xml")
+		if bs.find('error'):
+			return None
+
+	lat = bs.find("lat").text
+	lng = bs.find("lng").text
+
+	header = {
+		'User-Agent': 'CreateRestaurantsSummarySite (Mac)'
+	}
+	res = requests.get('https://station.ic731.net/api/nearest?lon={lng}&lat={lat}'.format(lng=lng, lat=lat), headers=header)
+	if (res.status_code != 200):
+		return None
+
+	d = json.loads(res.text)
+	station_data = d['data'][0]
+	return station_data['station_name'] + '駅'
+
 def searchByTitle(url):
 	page = requests.get(url)
 	if page.status_code != 200:
@@ -73,5 +109,10 @@ def searchByTitle(url):
 			if downloadImage(img_tag['src'], filename):
 				store["photo"] = [filename]
 			break
+
+	#最寄
+	station = getStation(store["addr"])
+	if station != None:
+		store["station"] = station
 
 	return store

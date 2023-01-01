@@ -6,12 +6,14 @@ import Tabelog
 import Hotpepper
 import Gurunavi
 import Retty
+import GoogleMaps
 import Google
 import DataBase
 
 class Store:
-	def __init__(self):
+	def __init__(self, cbGetInfoDone):
 		self.db = DataBase.StoreDB()
+		self.getInfoDoneCallback = cbGetInfoDone
 
 	def _getInfo(self, url):
 		if url.find("tabelog.com") >= 0:
@@ -25,6 +27,8 @@ class Store:
 			storeInfo = Gurunavi.getInfo(url)
 		elif url.find("retty.me") >= 0:
 			storeInfo = Retty.getInfo(url)
+		elif url.find("goo.gl/maps") >= 0:
+			storeInfo = GoogleMaps.getInfo(url)
 		else:
 			storeInfo = Google.searchByTitle(url)
 	
@@ -39,6 +43,8 @@ class Store:
 				else:
 					self.db.addStoreData(url, storeInfo, tp)
 				self.db.commit();
+				self.getInfoDoneCallback(url)
+		self.getInfoDoneCallback(None)
 
 	def createWebPage(self, urls, tp):
 		if tp != "restaurants" and tp != "tavern":
@@ -59,7 +65,7 @@ class Store:
 <body>
   <h1 class="title">Void</h1>
   <div class="contents">
-  	<div class="update"><a href="{type}.py">お店情報更新</a></div>
+  	<div class="update"><a href="update.py?type={type}">お店情報更新</a></div>
 '''.format(type=("meshiya" if tp == "restaurants" else "sakaya"))
 
 		jp_states = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県","茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県","新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県","静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県","奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県","徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県","熊本県","大分県","宮崎県","鹿児島県","沖縄県"]

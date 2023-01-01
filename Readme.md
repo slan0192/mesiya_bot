@@ -6,3 +6,10 @@
 - requests
 - BeautifulSoup4
 - discord.py
+- psutil
+- websocket-server
+- websocket-client
+- selenium
+- chrome
+- chromedriver
+- lxml

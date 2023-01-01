@@ -2,9 +2,11 @@
 
 import sqlite3
 
+DB_FILE = './store.db'
+
 class StoreDB:
 	def __init__(self):
-		self.conn = sqlite3.connect('store.db')
+		self.conn = sqlite3.connect(DB_FILE)
 		self.cur = self.conn.cursor()
 		self._create_table()
 		self.conn.commit()
